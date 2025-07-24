@@ -1,0 +1,43 @@
+# PRODUCTION CONFIGURATION
+# Ultimate Monitoring System - Production Ready
+
+discord:
+  token: ${DISCORD_TOKEN}
+  command_prefix: "!"
+  sync_commands: true
+
+monitoring:
+  # Ultra-fast monitoring settings
+  default_interval: 1.0          # 1 second default
+  min_interval: 0.5              # 500ms minimum
+  max_concurrent: 20             # High concurrency
+  
+  # Notification settings
+  notify_on_in_stock: true       # ✅ Ping when IN STOCK
+  notify_on_out_of_stock: false  # ❌ Don't ping when OUT OF STOCK
+  default_role_mention: "@everyone"
+  notification_cooldown: 300     # 5 minutes
+  
+  # Anti-detection
+  anti_detection:
+    enabled: true
+    min_delay: 0.1
+    max_delay: 0.5
+    use_cache_busting: true
+    rotate_user_agents: true
+
+database:
+  path: "data/pokemon_bot.db"
+  backup_enabled: true
+  backup_interval: 3600
+
+logging:
+  level: "INFO"
+  file: "logs/bot.log"
+  max_size: "10MB"
+  backup_count: 5
+
+performance:
+  enable_metrics: true
+  health_check_port: 8080
+  memory_limit: "100MB"

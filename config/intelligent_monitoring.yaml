@@ -1,0 +1,130 @@
+# Intelligent Monitoring Configuration v2
+# Advanced settings for optimized, anti-detection monitoring
+
+intelligent_monitoring:
+  enabled: true
+  
+  # Request Timing Configuration
+  timing:
+    base_delay: 1.0                    # Base delay between requests (seconds)
+    jitter_min: 0.5                    # Minimum random jitter (seconds)
+    jitter_max: 2.0                    # Maximum random jitter (seconds)
+    stagger_delay_min: 0.1             # Minimum stagger delay for batch processing
+    stagger_delay_max: 0.3             # Maximum stagger delay for batch processing
+    
+  # Peak Hours Configuration
+  peak_hours:
+    start: 9                           # Peak hours start (24h format)
+    end: 22                            # Peak hours end (24h format)
+    peak_multiplier: 1.4               # Delay multiplier during peak hours
+    off_peak_multiplier: 0.6           # Delay multiplier during off-peak hours
+    
+  # Adaptive Monitoring Settings
+  adaptive:
+    change_frequency_threshold_high: 2.0    # Changes per hour for high priority
+    change_frequency_threshold_low: 0.1     # Changes per hour for low priority
+    high_priority_multiplier: 0.8           # Delay multiplier for high priority products
+    low_priority_multiplier: 1.3            # Delay multiplier for low priority products
+    unchanged_threshold_high: 50             # Consecutive unchanged for low priority
+    unchanged_threshold_medium: 20           # Consecutive unchanged for medium priority
+    
+  # Health Monitoring
+  health:
+    success_rate_threshold: 95.0        # Minimum acceptable success rate (%)
+    error_rate_threshold: 5.0           # Maximum acceptable error rate (%)
+    response_time_threshold: 2.0        # Maximum acceptable response time (seconds)
+    adaptive_delay_min: 0.5             # Minimum adaptive delay multiplier
+    adaptive_delay_max: 3.0             # Maximum adaptive delay multiplier
+    
+  # Circuit Breaker Configuration
+  circuit_breaker:
+    error_threshold: 3                  # Errors before opening circuit breaker
+    reset_timeout: 300                  # Seconds before attempting reset
+    backoff_multiplier: 3.0             # Delay multiplier when circuit breaker is open
+    
+  # Caching Configuration
+  cache:
+    enabled: true
+    ttl: 60                            # Cache time-to-live (seconds)
+    max_size: 100                      # Maximum cache entries
+    cleanup_threshold: 5               # Minutes before cleaning old entries
+    
+  # Request Optimization
+  request_optimization:
+    user_agent_rotation_frequency: 15   # Requests before rotating user agent
+    connection_keep_alive: true         # Use connection keep-alive
+    http2_enabled: true                 # Enable HTTP/2 if supported
+    compression_enabled: true           # Enable gzip/deflate compression
+    
+  # Anti-Detection Features
+  anti_detection:
+    randomize_request_order: true       # Randomize product check order
+    simulate_human_patterns: true       # Add human-like browsing patterns
+    vary_request_intervals: true        # Vary intervals between requests
+    realistic_headers: true             # Use realistic browser headers
+    
+  # Behavioral Patterns
+  behavioral:
+    batch_randomization: true           # Randomize batch processing order
+    human_like_delays: true             # Add human-like thinking delays
+    weekend_adjustment: true            # Adjust monitoring on weekends
+    holiday_adjustment: true            # Adjust monitoring on holidays
+    
+  # Monitoring Priorities
+  priorities:
+    newly_added_boost: 2.0              # Priority boost for newly added products
+    recent_change_boost: 1.5            # Priority boost for recently changed products
+    restock_window_boost: 1.8           # Priority boost during known restock windows
+    
+  # Error Handling
+  error_handling:
+    exponential_backoff: true           # Use exponential backoff on errors
+    max_backoff_time: 300               # Maximum backoff time (seconds)
+    retry_attempts: 3                   # Number of retry attempts
+    graceful_degradation: true          # Gracefully degrade on persistent errors
+    
+  # Logging and Metrics
+  logging:
+    performance_metrics: true           # Log performance metrics
+    detailed_timing: false              # Log detailed timing information
+    error_tracking: true                # Track and log errors
+    statistics_interval: 300            # Seconds between statistics logging
+    
+  # Known Restock Windows (24h format)
+  restock_windows:
+    - start: "09:00"
+      end: "10:00"
+      days: ["monday", "wednesday", "friday"]
+      boost_multiplier: 0.7
+    - start: "14:00"
+      end: "15:00"
+      days: ["tuesday", "thursday"]
+      boost_multiplier: 0.8
+    - start: "20:00"
+      end: "21:00"
+      days: ["sunday"]
+      boost_multiplier: 0.6
+
+# Website-specific configurations
+website_configs:
+  "bol.com":
+    base_delay: 0.8                     # Faster for bol.com
+    max_concurrent: 3                   # Limit concurrent requests
+    respect_robots_txt: true            # Respect robots.txt
+    custom_headers:
+      "Accept-Language": "nl-NL,nl;q=0.9,en;q=0.8"
+      "Accept-Encoding": "gzip, deflate, br"
+    
+  "amazon.com":
+    base_delay: 2.0                     # Slower for Amazon (more strict)
+    max_concurrent: 2
+    respect_robots_txt: true
+    custom_headers:
+      "Accept-Language": "en-US,en;q=0.9"
+      
+# Performance Targets
+performance_targets:
+  max_response_time: 1.5                # Target maximum response time
+  min_success_rate: 98.0                # Target minimum success rate
+  max_error_rate: 2.0                   # Target maximum error rate
+  optimal_delay_range: [0.8, 1.5]      # Optimal delay range for best performance

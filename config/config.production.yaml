@@ -1,0 +1,40 @@
+# Production-specific configuration for Pokemon Discord Bot
+
+# Health check settings for production
+health_check:
+  enabled: true
+  host: "0.0.0.0"  # Listen on all interfaces in production
+  port: 8080
+
+# Logging settings for production
+logging:
+  level: "INFO"
+  format: "%(asctime)s - %(name)s - %(levelname)s - %(message)s"
+  file_path: "logs/pokemon_bot.log"
+  max_file_size: 52428800  # 50MB
+  backup_count: 10
+
+# Performance settings for production
+performance:
+  connection_pool_size: 20
+  max_connections_per_host: 10
+  request_timeout: 30
+  cache_ttl: 300  # 5 minutes
+
+# Monitoring settings for production
+monitoring:
+  default_interval: 60
+  min_interval: 30
+  max_concurrent: 20
+  anti_detection:
+    min_delay: 1.5
+    max_delay: 7.0
+    rotate_user_agents: true
+    use_cache_busting: true
+
+# Database settings for production
+database:
+  pool_size: 10
+  max_overflow: 20
+  pool_timeout: 30
+  pool_recycle: 1800  # 30 minutes

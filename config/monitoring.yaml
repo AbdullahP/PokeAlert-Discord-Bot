@@ -1,0 +1,376 @@
+# Production Monitoring and Alerting Configuration
+
+# Health Check Configuration
+health_check:
+  enabled: true
+  port: 8080
+  path: "/health"
+  interval: 30  # seconds
+  timeout: 10   # seconds
+  
+# Metrics Collection
+metrics:
+  enabled: true
+  port: 8080
+  path: "/metrics"
+  collection_interval: 60  # seconds
+  retention_days: 30
+  
+  # Prometheus configuration
+  prometheus:
+    enabled: true
+    job_name: "pokemon-discord-bot"
+    scrape_interval: "30s"
+    metrics_path: "/metrics"
+    
+# Performance Monitoring
+performance:
+  # Response time thresholds (seconds)
+  response_time:
+    warning: 5.0
+    critical: 10.0
+    
+  # Success rate thresholds (percentage)
+  success_rate:
+    warning: 95.0
+    critical: 90.0
+    
+  # Memory usage thresholds (MB)
+  memory_usage:
+    warning: 400
+    critical: 500
+    
+  # Database size thresholds (MB)
+  database_size:
+    warning: 100
+    critical: 500
+
+# Error Monitoring
+error_monitoring:
+  enabled: true
+  
+  # Error rate thresholds (errors per hour)
+  error_rate:
+    warning: 10
+    critical: 50
+    
+  # Critical error patterns
+  critical_patterns:
+    - "DatabaseError"
+    - "DiscordConnectionError"
+    - "AuthenticationError"
+    - "OutOfMemoryError"
+    
+  # Error notification settings
+  notifications:
+    enabled: true
+    channel_id: null  # Set to admin channel ID
+    mention_roles: ["Bot Admin", "Admin"]
+    cooldown: 300  # seconds between similar error notifications
+
+# Uptime Monitoring
+uptime:
+  enabled: true
+  check_interval: 60  # seconds
+  
+  # Downtime thresholds
+  downtime_alert:
+    warning: 120   # seconds
+    critical: 300  # seconds
+    
+  # External monitoring services
+  external_monitors:
+    uptime_robot:
+      enabled: false
+      url: "https://api.uptimerobot.com/v2/"
+      api_key: null  # Set your API key
+      
+    pingdom:
+      enabled: false
+      url: "https://api.pingdom.com/api/3.1/"
+      api_key: null  # Set your API key
+
+# Resource Monitoring
+resources:
+  enabled: true
+  check_interval: 60  # seconds
+  
+  # CPU usage thresholds (percentage)
+  cpu_usage:
+    warning: 70
+    critical: 90
+    
+  # Memory usage thresholds (percentage)
+  memory_usage:
+    warning: 80
+    critical: 95
+    
+  # Disk usage thresholds (percentage)
+  disk_usage:
+    warning: 80
+    critical: 95
+    
+  # Network monitoring
+  network:
+    enabled: true
+    timeout: 10  # seconds
+    test_urls:
+      - "https://www.bol.com"
+      - "https://discord.com/api/v10/gateway"
+
+# Database Monitoring
+database:
+  enabled: true
+  check_interval: 300  # seconds (5 minutes)
+  
+  # Connection monitoring
+  connection:
+    timeout: 30  # seconds
+    max_retries: 3
+    
+  # Performance monitoring
+  performance:
+    slow_query_threshold: 5.0  # seconds
+    lock_timeout: 30  # seconds
+    
+  # Integrity checks
+  integrity:
+    enabled: true
+    check_interval: 3600  # seconds (1 hour)
+    
+  # Backup monitoring
+  backup:
+    enabled: true
+    check_interval: 1800  # seconds (30 minutes)
+    max_age: 7200  # seconds (2 hours)
+
+# Discord API Monitoring
+discord:
+  enabled: true
+  check_interval: 60  # seconds
+  
+  # Rate limit monitoring
+  rate_limits:
+    warning_threshold: 80  # percentage of limit
+    critical_threshold: 95  # percentage of limit
+    
+  # Latency monitoring
+  latency:
+    warning: 500   # milliseconds
+    critical: 1000 # milliseconds
+    
+  # Connection monitoring
+  connection:
+    timeout: 30  # seconds
+    max_retries: 3
+
+# Notification Monitoring
+notifications:
+  enabled: true
+  check_interval: 300  # seconds (5 minutes)
+  
+  # Queue monitoring
+  queue:
+    warning_size: 100
+    critical_size: 500
+    
+  # Delivery monitoring
+  delivery:
+    failure_rate_warning: 5   # percentage
+    failure_rate_critical: 15 # percentage
+    
+  # Response time monitoring
+  response_time:
+    warning: 10   # seconds
+    critical: 30  # seconds
+
+# Log Monitoring
+logging:
+  enabled: true
+  
+  # Log levels to monitor
+  monitor_levels:
+    - "ERROR"
+    - "CRITICAL"
+    - "WARNING"
+    
+  # Log patterns to alert on
+  alert_patterns:
+    - pattern: "CRITICAL"
+      severity: "critical"
+      cooldown: 60
+    - pattern: "ERROR.*Database"
+      severity: "critical"
+      cooldown: 300
+    - pattern: "ERROR.*Discord"
+      severity: "warning"
+      cooldown: 600
+    - pattern: "WARNING.*Rate limit"
+      severity: "warning"
+      cooldown: 1800
+      
+  # Log file monitoring
+  files:
+    - path: "/app/logs/pokemon_bot.log"
+      max_size: "50MB"
+      max_age: 7  # days
+    - path: "/app/logs/error.log"
+      max_size: "10MB"
+      max_age: 14  # days
+
+# Alerting Configuration
+alerting:
+  enabled: true
+  
+  # Alert channels
+  channels:
+    discord:
+      enabled: true
+      webhook_url: null  # Set your Discord webhook URL
+      channel_id: null   # Set admin channel ID
+      mention_roles: ["Bot Admin"]
+      
+    email:
+      enabled: false
+      smtp_server: null
+      smtp_port: 587
+      username: null
+      password: null
+      from_email: null
+      to_emails: []
+      
+    slack:
+      enabled: false
+      webhook_url: null
+      channel: "#alerts"
+      
+    webhook:
+      enabled: false
+      url: null
+      headers: {}
+      
+  # Alert rules
+  rules:
+    - name: "High Error Rate"
+      condition: "error_rate > 20"
+      severity: "critical"
+      cooldown: 300
+      message: "🚨 High error rate detected: {error_rate} errors/hour"
+      
+    - name: "Low Success Rate"
+      condition: "success_rate < 90"
+      severity: "critical"
+      cooldown: 600
+      message: "⚠️ Low success rate: {success_rate}%"
+      
+    - name: "High Response Time"
+      condition: "avg_response_time > 10"
+      severity: "warning"
+      cooldown: 300
+      message: "🐌 High response time: {avg_response_time}s"
+      
+    - name: "Database Issues"
+      condition: "database_errors > 5"
+      severity: "critical"
+      cooldown: 180
+      message: "💾 Database issues detected: {database_errors} errors"
+      
+    - name: "Discord API Issues"
+      condition: "discord_errors > 10"
+      severity: "warning"
+      cooldown: 600
+      message: "🤖 Discord API issues: {discord_errors} errors"
+      
+    - name: "High Memory Usage"
+      condition: "memory_usage > 90"
+      severity: "warning"
+      cooldown: 900
+      message: "🧠 High memory usage: {memory_usage}%"
+      
+    - name: "Bot Offline"
+      condition: "uptime_status == false"
+      severity: "critical"
+      cooldown: 60
+      message: "🔴 Bot is offline!"
+
+# Maintenance Windows
+maintenance:
+  enabled: true
+  
+  # Scheduled maintenance windows (alerts suppressed)
+  windows:
+    - name: "Weekly Maintenance"
+      day: "sunday"
+      start_time: "02:00"
+      end_time: "04:00"
+      timezone: "UTC"
+      
+    - name: "Monthly Updates"
+      day: "first_sunday"
+      start_time: "01:00"
+      end_time: "05:00"
+      timezone: "UTC"
+
+# Reporting
+reporting:
+  enabled: true
+  
+  # Daily reports
+  daily:
+    enabled: true
+    time: "09:00"
+    timezone: "UTC"
+    channel_id: null  # Set to admin channel ID
+    
+  # Weekly reports
+  weekly:
+    enabled: true
+    day: "monday"
+    time: "09:00"
+    timezone: "UTC"
+    channel_id: null  # Set to admin channel ID
+    
+  # Monthly reports
+  monthly:
+    enabled: true
+    day: 1
+    time: "09:00"
+    timezone: "UTC"
+    channel_id: null  # Set to admin channel ID
+    
+  # Report content
+  content:
+    - "uptime_percentage"
+    - "total_products_monitored"
+    - "notifications_sent"
+    - "success_rate"
+    - "avg_response_time"
+    - "error_summary"
+    - "top_errors"
+    - "performance_trends"
+
+# Integration Settings
+integrations:
+  # Grafana dashboard
+  grafana:
+    enabled: false
+    url: null
+    api_key: null
+    dashboard_id: null
+    
+  # DataDog
+  datadog:
+    enabled: false
+    api_key: null
+    app_key: null
+    
+  # New Relic
+  newrelic:
+    enabled: false
+    license_key: null
+    
+  # Sentry error tracking
+  sentry:
+    enabled: false
+    dsn: null
+    environment: "production"

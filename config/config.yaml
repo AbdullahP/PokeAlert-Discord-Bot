@@ -1,0 +1,81 @@
+# Ultra-speed configuration for maximum monitoring speed
+monitoring:
+  # Ultra-fast intervals
+  default_interval: 0.5  # 500ms default
+  
+  # Minimal anti-detection for trusted sites
+  anti_detection:
+    min_delay: 0.01       # 10ms minimum
+    max_delay: 0.05       # 50ms maximum
+    use_cache_busting: false
+    rotate_user_agents: false
+    
+  # Aggressive rate limiting
+  rate_limiting:
+    requests_per_second: 50   # Very high RPS
+    burst_size: 100          # Large burst
+    
+  # Minimal retry settings
+  retry:
+    max_retries: 1           # Single retry only
+    base_delay: 0.1          # 100ms retry delay
+    max_delay: 1.0           # 1s max delay
+    
+  # Parallel processing
+  parallel:
+    max_workers: 20          # High worker count
+    batch_size: 50           # Large batches
+    
+notifications:
+  # Ultra-fast notification settings
+  batch_size: 20             # Large batches
+  rate_limit_delay: 0.05     # 50ms delay
+  max_queue_size: 10000      # Huge queue
+  parallel_processing: true
+  instant_send: true         # New: instant sending
+  
+  # Minimal cooldown
+  cooldown:
+    enabled: false           # Disabled for speed
+    
+# Website-specific ultra-speed settings
+websites:
+  bol.com:
+    interval: 0.5            # 500ms monitoring
+    priority: ultra_high
+    anti_detection: disabled
+    parallel_products: true
+    
+  amazon.com:
+    interval: 1
+    priority: high
+    
+  coolblue.nl:
+    interval: 1
+    priority: high
+
+# Performance optimizations
+performance:
+  # Connection pooling
+  connection_pool_size: 200
+  keep_alive_timeout: 60
+  
+  # DNS optimization
+  dns_cache_enabled: true
+  dns_cache_ttl: 300
+  
+  # Memory optimization
+  gc_threshold: 10000
+  
+  # Logging optimization
+  log_level: WARNING         # Minimal logging
+  disable_debug_logs: true
+  
+# Ultra-speed features
+ultra_speed:
+  enabled: true
+  parallel_monitoring: true
+  instant_notifications: true
+  minimal_logging: true
+  dns_preloading: true
+  session_pooling: true

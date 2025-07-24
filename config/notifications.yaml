@@ -1,0 +1,38 @@
+# NOTIFICATION SYSTEM CONFIGURATION
+# Only notify when products come IN STOCK
+
+notifications:
+  # When to send notifications
+  triggers:
+    in_stock: true              # ✅ Send when product comes IN STOCK
+    out_of_stock: false         # ❌ Don't send when goes OUT OF STOCK
+    price_drop: true            # ✅ Send on significant price drops
+    price_increase: false       # ❌ Don't send on price increases
+  
+  # Role mentions
+  roles:
+    default: "@everyone"        # Default role mention
+    urgent: "@here"            # For urgent notifications
+    custom: ""                 # Custom role (set per product)
+  
+  # Timing
+  cooldown_seconds: 300        # 5 minutes between same product notifications
+  batch_notifications: false   # Send immediately, don't batch
+  instant_mode: true          # Instant delivery
+  
+  # Message formatting
+  embed_color_in_stock: 0x00FF00    # Green for in stock
+  embed_color_out_of_stock: 0xFF0000 # Red for out of stock
+  include_quick_buy_link: true
+  include_price_info: true
+  include_timestamp: true
+
+# Product-specific notification settings
+product_overrides:
+  gaming_products:
+    cooldown_seconds: 60       # 1 minute for gaming products
+    role_mention: "@here"      # More urgent for gaming
+  
+  high_value_products:
+    price_threshold: 100.00    # €100+ products
+    role_mention: "@here"      # More urgent for expensive items

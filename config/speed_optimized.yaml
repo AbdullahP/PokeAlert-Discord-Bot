@@ -1,0 +1,41 @@
+# Speed-optimized configuration for fastest monitoring
+monitoring:
+  anti_detection:
+    min_delay: 0.1          # Reduced from 0.5
+    max_delay: 0.5          # Reduced from 2.0
+    use_cache_busting: false # Disabled for speed
+    rotate_user_agents: false # Disabled for speed
+  
+  rate_limiting:
+    requests_per_second: 10  # Increased from 5
+    burst_size: 20          # Increased from 10
+  
+  retry:
+    max_retries: 2          # Reduced from 3
+    base_delay: 0.5         # Reduced from 1.0
+    max_delay: 10.0         # Reduced from 30.0
+
+notifications:
+  batch_size: 10            # Increased from 5
+  rate_limit_delay: 0.1     # Reduced from 1.0
+  max_queue_size: 2000      # Increased from 1000
+  parallel_processing: true # New feature
+  
+  cooldown:
+    enabled: false          # Disabled for speed testing
+    period: 60              # Reduced from 3600
+
+# Website-specific optimizations
+websites:
+  bol.com:
+    interval: 1             # 1 second monitoring
+    priority: high
+    anti_detection: minimal
+  
+  amazon.com:
+    interval: 2
+    priority: high
+    
+  coolblue.nl:
+    interval: 2
+    priority: medium

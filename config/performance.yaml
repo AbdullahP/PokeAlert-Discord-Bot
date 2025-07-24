@@ -1,0 +1,55 @@
+# ULTIMATE PERFORMANCE CONFIGURATION
+# This configuration makes your monitoring system THE FASTEST
+
+monitoring:
+  # Ultra-fast intervals
+  base_interval: 0.5              # 500ms base (2x per second)
+  jitter_min: 0.1                 # Minimal jitter for speed
+  jitter_max: 0.3                 # Maximum jitter
+  
+  # High concurrency for speed
+  max_concurrent: 25              # 25 concurrent requests
+  connection_pool_size: 50        # Large connection pool
+  
+  # Speed optimizations
+  ultra_fast_mode: true
+  skip_unnecessary_checks: true
+  aggressive_caching: true
+  parallel_processing: true
+  
+  # Anti-detection (balanced for speed)
+  stealth_level: "balanced"       # Balance speed vs stealth
+  user_agent_rotation: 10         # Rotate every 10 requests
+  
+performance:
+  # Target metrics
+  target_response_time: 0.3       # 300ms target
+  max_memory_usage: 100           # 100MB limit
+  
+  # Optimizations
+  cpu_optimization: true
+  network_optimization: true
+  memory_optimization: true
+  
+  # Monitoring frequency by category
+  gaming_products: 0.3            # 300ms for gaming (fastest)
+  electronics: 0.5                # 500ms for electronics
+  general_products: 1.0           # 1s for general products
+
+# Website-specific settings
+websites:
+  "bol.com":
+    base_interval: 0.4            # 400ms for bol.com
+    max_concurrent: 15            # Conservative concurrency
+    stealth_level: "high"         # Higher stealth for bol.com
+    
+  "amazon.com":
+    base_interval: 1.0            # 1s for Amazon (more strict)
+    max_concurrent: 10
+    stealth_level: "maximum"
+
+# Alert thresholds
+alerts:
+  success_rate_threshold: 95.0    # Alert if below 95%
+  response_time_threshold: 1.0    # Alert if above 1s
+  error_rate_threshold: 5.0       # Alert if above 5%
